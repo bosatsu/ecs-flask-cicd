@@ -1,0 +1,24 @@
+{
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "containerDefinitions": [
+        {
+            "name": "spage-test-family",
+            "image": "027123649869.dkr.ecr.us-west-2.amazonaws.com/cicd-poc-ecr-repo",
+            "portMappings": [
+                {
+                    "containerPort": "8080",
+                    "protocol": "tcp"
+                }
+                
+            ]
+        }
+    ],
+    "volumes": [],
+    "networkMode": "awsvpc",
+    "memory": "512",
+    "cpu": "256",
+    "family": "spage-test-family",
+    "executionRoleArn": "arn:aws:iam::027123649869:role/spage-test-fg-task-roleECSTasksServiceRole"
+}
