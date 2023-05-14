@@ -1,0 +1,63 @@
+name: Linting
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ main, test ]
+    types: [ opened, synchronize ]
+    paths-ignore:
+      - README.md
+      - CHANGELOG.md
+      - .gitignore
+
+env:
+  POETRY_VERSION: 1.4.2
+
+jobs:
+  ci-lint:
+    name: Check Linting
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows
+    - name: Setup cache for poetry install
+      uses: actions/cache@v2
+      with:
+        path: ~/.local/bin
+        key: poetry-$POETRY_VERSION-0
+
+    # We use pipx here because it is available and installing poetry via pip
+    # also installs all of poetry's dev dependencies, 
+    # which could cause conflicts with our dev dependencies
+    # https://github.com/pypa/pipx
+    # https://python-poetry.org/docs/#installing-with-pip
+    - name: Install Poetry
+      run: pipx install poetry==$POETRY_VERSION
+
+    # https://github.com/actions/setup-python#caching-packages-dependencies
+    - name: Setup Python 3.10 with poetry caching
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'poetry'
+
+    - name: Install dependencies
+      run: poetry install --no-ansi
+
+    - name: Lint with black
+      run: poetry run black --check .
+
+    - name: Lint with isort
+      run: poetry run isort --check .
+
+    - name: Lint with flake8
+      run: poetry run flake8 .
+
+    - name: Lint with mypy
+      run: poetry run mypy .
+
+    - name: Test with pytest
+      run: poetry run pytest
