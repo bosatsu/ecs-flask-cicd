@@ -1,2 +1,3 @@
-# ecs-terraform
-Repository to setup an ECS cluster in AWS with terraform
+# ecs-flask-cicd
+
+This repo is a demo of using CI/CD to deploy a flask app as an ECS Fargate task without having to manage any IaC tools and instead simplying relying on a `task-definition.json` file.  This a very simple self-serve option for teams where that don't have the skills to manage their own ECS cluster, but can at least manage their ECS tasks. This repo depends on https://github.com/bosatsu/ecs-terraform to build the infrastructure.  This repo was heavily influnced by this [AWS blog post](https://aws.amazon.com/blogs/containers/create-a-ci-cd-pipeline-for-amazon-ecs-with-github-actions-and-aws-codebuild-tests/).
