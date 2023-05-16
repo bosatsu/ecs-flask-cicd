@@ -1,6 +1,6 @@
 from flask import Flask
 
-HELLO = "<p>Hello, World V2!</p>"
+HELLO = "<p>Hello, World CD Test!</p>"
 
 app = Flask(__name__)
 
