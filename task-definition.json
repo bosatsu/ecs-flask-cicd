@@ -4,7 +4,7 @@
     ],
     "containerDefinitions": [
         {
-            "name": "spage-test-family",
+            "name": "spage-task",
             "image": "027123649869.dkr.ecr.us-west-2.amazonaws.com/cicd-poc-ecr-repo",
             "portMappings": [
                 {

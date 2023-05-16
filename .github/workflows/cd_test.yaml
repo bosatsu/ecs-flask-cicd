@@ -1,5 +1,10 @@
 name: Deploy to Amazon ECS
 
+env:
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_TEST }}
+  IMAGE_TAG: ${{ github.sha }}
+
 on:
   workflow_dispatch:
   pull_request:
@@ -37,10 +42,6 @@ jobs:
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: cicd-poc-ecr-repo
-        IMAGE_TAG: ${{ github.sha }}
       run: |
         # Build a docker container and
         # push it to ECR so that it can
@@ -54,13 +55,13 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
-        container-name: spage-test-family
+        container-name: spage-task
         image: ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: cicd-poc-stack-Service
-        cluster: cicd-poc-stack-Cluster
+        service: spage-env-test-ecs-service
+        cluster: spage-env-test-ecs-cluster
         wait-for-service-stability: true
