@@ -1,4 +1,7 @@
 {
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
     "containerDefinitions": [
         {
             "name": "spage-task",
@@ -11,6 +14,7 @@
         }
     ],
     "volumes": [],
+    "networkMode": "awsvpc",
     "memory": "512",
     "cpu": "256",
     "family": "spage-test-family",
