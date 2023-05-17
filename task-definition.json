@@ -2,7 +2,6 @@
     "requiresCompatibilities": [
         "FARGATE"
     ],
-    "family": "spage-task-family",
     "containerDefinitions": [
         {
             "name": "spage-task",
@@ -17,5 +16,7 @@
     "volumes": [],
     "networkMode": "awsvpc",
     "memory": "512",
-    "cpu": "256"
+    "cpu": "256",
+    "family": "spage-test-family",
+    "executionRoleArn": "arn:aws:iam::027123649869:role/spage-env-testECSTasksServiceRole"
 }
