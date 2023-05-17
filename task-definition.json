@@ -4,6 +4,7 @@
     ],
     "containerDefinitions": [
         {
+            "name": "spage-task",
             "portMappings": [
                 {
                     "containerPort": "8080",
