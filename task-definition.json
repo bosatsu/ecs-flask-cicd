@@ -2,6 +2,7 @@
     "requiresCompatibilities": [
         "FARGATE"
     ],
+    "family": "spage-task-family",
     "containerDefinitions": [
         {
             "name": "spage-task",
