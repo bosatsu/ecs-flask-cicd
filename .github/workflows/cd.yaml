@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS TEST
+name: Deploy to AWS ECS
 
 env:
   ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
@@ -10,13 +10,13 @@ on:
   pull_request:
     branches:
       - test
+      - main
     types:
       - closed
     paths-ignore:
       - README.md
       - CHANGELOG.md
       - .gitignore
-      - .github/**
 
 jobs:
   deploy:
@@ -54,14 +54,24 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: task-definition.json
+        task-definition: ${{ vars.TASK_DEFINITION }}
         container-name: spage-task
         image: ${{ steps.build-image.outputs.image }}
 
-    - name: Deploy Amazon ECS task definition
+    - name: Deploy to AWS ECS Test
+      if: github.head_ref == 'test'
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: spage-env-test-ecs-service
         cluster: spage-env-test-ecs-cluster
+        wait-for-service-stability: true
+
+    - name: Deploy to AWS ECS Prod
+      if: github.head_ref == 'main'
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: spage-env-prod-ecs-service
+        cluster: spage-env-prod-ecs-cluster
         wait-for-service-stability: true

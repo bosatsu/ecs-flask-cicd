@@ -4,7 +4,7 @@
     ],
     "containerDefinitions": [
         {
-            "name": "spage-task",
+            "name": "task-name",
             "portMappings": [
                 {
                     "containerPort": "8080",
@@ -17,6 +17,6 @@
     "networkMode": "awsvpc",
     "memory": "512",
     "cpu": "256",
-    "family": "spage-test-family",
-    "executionRoleArn": "arn:aws:iam::027123649869:role/spage-env-testECSTasksServiceRole"
+    "family": "family-name",
+    "executionRoleArn": "arn:aws:iam::aws-account:role/ECSTasksServiceRole"
 }
